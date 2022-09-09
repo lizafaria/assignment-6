@@ -43,7 +43,7 @@ const bannerDetails =(category_id)=>{
   const showPostDetails =(allData)=>{
     const cardDetails = document.getElementById('banner-details');
     // exploring Items
-    const searchingItem = document.getElementById('exploring-item');
+    const exploringItem = document.getElementById('exploring-item');
     
     const exploringResult = allData.length ;
     if(exploringResult <= 0){
@@ -98,7 +98,54 @@ const bannerDetails =(category_id)=>{
     spinnerLoding(false);
 
     })
+    }
+    const authorDetails=(authorID)=>{
+      const url=`https://openapi.programming-hero.com/api/news/${authorID}`
+      fetch(url)
+      .then(response => response.json())
+      .then((modalData) => {
+        showModalcreator(modalData.data)})
+      
+      .catch((error) => console.log(error));
     
-
-  }
+    }
+    
+    const showModalcreator=(creatorDetailModal)=>{
+      const modalId=document.getElementById('modal');
+      modalId.textContent='';
+      creatorDetailModal.forEach(modalData =>{
+        const {author, rating, details, thumbnail_url, total_view } = modalData;
+        const {name, published_date}=author;
+        const createModalDiv= document.createElement('div');
+        createModalDiv.classList.add('modal-content');
+        createModalDiv.classList.add('text-center');
+        createModalDiv.innerHTML=`
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+                <img src="${thumbnail_url ? thumbnail_url : 'No Data Found'}" alt="">
+                <p>Author Name: ${name ? name : 'No Data Found'}</p>
+                <p>Published Date: ${published_date ? published_date : 'No Data Found' }</p>
+                <p>Details: ${details.length > 300 ? details.slice(0,300)+'...' : details}</p>
+                <p>Rating: ${rating.number}</p>
+                <p>Total View: ${total_view}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+              
+        `
+        modalId.appendChild(createModalDiv);
+      })
+    
+    
+    }
+    
+    
   
+ authorDetails();
+allcategory();
+bannerDetails();
+
