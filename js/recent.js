@@ -22,3 +22,20 @@ const categoriesItem = (items) =>{
     )
 }
 
+const bannerDetails =(category_id)=>{
+    spinnerLoding(true)
+      const url=`https://openapi.programming-hero.com/api/news/category/${category_id}`
+          fetch(url)
+          .then(res => res.json())
+          .then((data)=>{
+            spinnerLoding(false)
+            let localdata=data.data
+            localdata.sort((a,b) => b.total_view -a.total_view)
+            showPostDetails(localdata);
+          } )
+          .catch((error) =>{
+            spinnerLoding(false)
+            console.log(error)
+          })
+           
+  }
