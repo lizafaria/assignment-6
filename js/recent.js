@@ -14,12 +14,22 @@ const categoriesItem = (items) =>{
         const creatLi = document.createElement('li');
         creatLi.innerHTML = `
         <li class="bg-info rounded me-3 py-2 px-3 ">
-        <a class="active text-white" aria-current="page" onclick="cardDetails('${category_id}')" href="#" style="text-decoration:none">${category_name}</a>
+        <a class="active text-white" aria-current="page" onclick="bannerDetails('${category_id}')" href="#" style="text-decoration:none">${category_name}</a>
         </li>
         `
         allcategory.appendChild(creatLi);
     }
     )
+}
+
+const spinnerLoding=isLoading=>{
+    const spinner=document.getElementById("spinner");
+    if (isLoading){
+        spinner.classList.remove('d-none')
+    }
+    else{
+        spinner.classList.add('d-none')
+    }
 }
 
 const bannerDetails =(category_id)=>{
@@ -41,7 +51,7 @@ const bannerDetails =(category_id)=>{
   }
 
   const showPostDetails =(allData)=>{
-    const cardDetails = document.getElementById('banner-details');
+    const bannerDetails = document.getElementById('banner-details');
     // exploring Items
     const exploringItem = document.getElementById('exploring-item');
     
@@ -102,7 +112,7 @@ const bannerDetails =(category_id)=>{
     const authorDetails=(authorID)=>{
       const url=`https://openapi.programming-hero.com/api/news/${authorID}`
       fetch(url)
-      .then(response => response.json())
+      .then(res => res.json())
       .then((modalData) => {
         showModalcreator(modalData.data)})
       
