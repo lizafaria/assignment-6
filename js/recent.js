@@ -39,3 +39,66 @@ const bannerDetails =(category_id)=>{
           })
            
   }
+
+  const showPostDetails =(allData)=>{
+    const cardDetails = document.getElementById('banner-details');
+    // exploring Items
+    const searchingItem = document.getElementById('exploring-item');
+    
+    const exploringResult = allData.length ;
+    if(exploringResult <= 0){
+      exploringItem.innerText = 'No Content Available'
+    } else{
+      exploringItem.innerText= exploringResult + ''+ 'Result Found'
+    }
+    // banner Details
+  
+    bannerDetails.textContent='';
+    allData.forEach( data =>{
+        const {title , image_url, details, author,total_view, _id } = data;
+        const {img , name, published_date} = author;
+        const createDiv = document.createElement('div');
+    createDiv.classList.add('col');
+
+    createDiv.innerHTML=`
+    <div class="card mb-3" style="width: 100%; height: 200px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="${image_url}" class="rounded-start" alt="..." style="width: 100%; height: 200px;">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">${title.length > 40 ? title.slice(0,40)+'...' : title}</h5>
+          <p class="card-text">${details.length > 100 ? details.slice(0,100) + '...' : details }</p>
+          <small class=" d-flex">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                <div class="d-flex">
+                    <img src="${img}" class="rounded-start" alt="..." style="width: 30px; height: 30px; ">
+                    <p>${name.length > 6 ? name.slice(0,6)+'...' : name}</p>
+                    </div>
+                 </div>
+                <div class="col d-flex">
+                <i class="fa fa-sharp fa-solid fa-eye me-1 mt-1"></i>
+                    <p>${total_view}</p>
+                 </div>
+                <div class="col">
+                    <button class="active bg-dark text-white p-1 rounded" onclick="authorDetails('${_id}')" href="#" style="text-decoration: none"  data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button>
+                </div>
+            </div>
+        </div>
+         </small>
+        </div>
+      </div>
+    </div>
+  </div>
+    `
+    bannerDetails.appendChild(createDiv);
+    spinnerLoding(false);
+
+    })
+    
+
+  }
+  
